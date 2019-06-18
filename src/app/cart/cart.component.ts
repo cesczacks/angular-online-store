@@ -9,6 +9,10 @@ import {
 import {
   CartService
 } from '../cart.service';
+import {
+  Router,
+  ActivatedRoute
+} from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -24,13 +28,16 @@ export class CartComponent implements OnInit {
 
   constructor(
     private cartService: CartService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.items = this.cartService.getItems();
 
     this.checkoutForm = this.formBuilder.group({
       name: '',
-      address: ''
+      address: '',
+      price: 0,
     });
   }
 
@@ -40,6 +47,8 @@ export class CartComponent implements OnInit {
       sum += Number(ele.price);
     });
     this.totalPrice = sum;
+
+    this.checkoutForm.get('price').setValue(this.totalPrice);
   }
 
   onSubmit(customerData) {
@@ -47,7 +56,12 @@ export class CartComponent implements OnInit {
     console.warn('Your order has been submitted', customerData);
 
     this.items = this.cartService.clearCart();
+    this.totalPrice = 0;
     this.checkoutForm.reset();
+
+    this.router.navigate([`/`], {
+      relativeTo: this.route
+    });
   }
 
 }
