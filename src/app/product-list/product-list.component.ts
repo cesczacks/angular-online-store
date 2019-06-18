@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  products
+} from '../products';
 
 @Component({
   selector: 'app-product-list',
@@ -7,9 +13,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductListComponent implements OnInit {
 
-  constructor() { }
+  public products;
+
+  constructor() {}
 
   ngOnInit() {
+    this.products = products;
+  }
+
+  share() {
+    alert('The product has been shared!');
   }
 
 }
